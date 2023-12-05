@@ -8,11 +8,11 @@ import {
   getAvaliacaoPorProdutoAPI,
   editarAvaliacaoAPI,
 } from "../../../servicos/AvaliacaoServico";
-import Form from "./Form";
 import AvaliacaoContext from "./AvaliacaoContext";
 import { getProdutoPorCodigoAPI } from "../../../servicos/ProdutoServico";
 import ItensProduto from "./ItensProduto";
 import AcordionAvaliacao from "./AcordionAvaliacao";
+import Form from "./Form";
 
 function Avaliacao() {
   const { id } = useParams();

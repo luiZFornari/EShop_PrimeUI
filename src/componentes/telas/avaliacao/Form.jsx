@@ -2,9 +2,8 @@ import { useContext } from "react";
 import Alerta from "../../comuns/Alerta";
 import CampoEntrada from "../../comuns/CampoEntrada";
 import Dialogo from "../../comuns/Dialogo";
-import CampoSelect from "../../comuns/CampoSelect";
-import MenuItem from "@mui/material/MenuItem";
 import AvaliacaoContext from "./AvaliacaoContext";
+import CampoSelect from "../../comuns/CampoSelect";
 
 function Form() {
   const {
@@ -15,8 +14,13 @@ function Form() {
     abreDialogo,
     setAbreDialogo,
   } = useContext(AvaliacaoContext);
-
-  const notas = [1, 2, 3, 4, 5];
+  const notas = [
+    { name: "1", code: 1 },
+    { name: "2", code: 2 },
+    { name: "3", code: 3 },
+    { name: "4", code: 4 },
+    { name: "5", code: 5 },
+  ];
 
   return (
     <>
@@ -28,8 +32,8 @@ function Form() {
         acaoCadastrar={acaoCadastrarAvaliacao}
         idform="formulario"
         maxWidth="sm"
+        alerta={alerta}
       >
-        <Alerta alerta={alerta} />
         <CampoEntrada
           id="txtCodigo"
           label="Codigo"
@@ -61,7 +65,7 @@ function Form() {
           tipo="text"
           onchange={handleChange}
           msgvalido="OK certo"
-          msginvalido="Informe o autor"
+          msginvalido="Informe o email"
           requerido={true}
           readonly={false}
           maxCaracteres={40}
@@ -82,20 +86,17 @@ function Form() {
         <CampoSelect
           id="selectNota"
           label="Nota"
-          idLabel="labelNota"
+          idLabel="txtNota"
           name="nota"
           value={objeto.nota}
           onchange={handleChange}
           requerido={true}
+          dados={notas}
           msgvalido="Nota OK"
           msginvalido="Informe a nota"
-        >
-          {notas.map((nota) => (
-            <MenuItem value={nota} key={nota}>
-              {nota}
-            </MenuItem>
-          ))}
-        </CampoSelect>
+          optionValue="code"
+          optionLabel="name"
+        />
         <CampoEntrada
           value={objeto.data}
           id="txtDataCadastro"

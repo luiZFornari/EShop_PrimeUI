@@ -19,7 +19,7 @@ function MenuPublico() {
 
   const start = (
     <NavLink exact to="/">
-      <h2 style={{ color: "black" }}>EShop</h2>
+      <h2 style={{ color: "black", display: "inline-block" }}>EShop</h2>
     </NavLink>
   );
 

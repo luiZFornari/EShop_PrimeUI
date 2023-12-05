@@ -2,9 +2,8 @@ import { useContext } from "react";
 import Alerta from "../../comuns/Alerta";
 import CampoEntrada from "../../comuns/CampoEntrada";
 import Dialogo from "../../comuns/Dialogo";
-import CampoSelect from "../../comuns/CampoSelect";
-import MenuItem from "@mui/material/MenuItem";
 import ProdutoContext from "./ProdutoContext";
+import CampoSelect from "../../comuns/CampoSelect";
 
 function Form() {
   const {
@@ -17,6 +16,8 @@ function Form() {
     setAbreDialogo,
   } = useContext(ProdutoContext);
 
+  console.log(listaCategorias);
+
   return (
     <>
       <Dialogo
@@ -27,8 +28,8 @@ function Form() {
         acaoCadastrar={acaoCadastrar}
         idform="formulario"
         maxWidth="sm"
+        alerta={alerta}
       >
-        <Alerta alerta={alerta} />
         <CampoEntrada
           id="txtCodigo"
           label="Codigo"
@@ -86,15 +87,12 @@ function Form() {
           value={objeto.categoria}
           onchange={handleChange}
           requerido={true}
+          dados={listaCategorias}
           msgvalido="Nota OK"
           msginvalido="Informe a categoria"
-        >
-          {listaCategorias.map((categoria) => (
-            <MenuItem value={categoria.codigo} key={categoria.codigo}>
-              {categoria.nome}
-            </MenuItem>
-          ))}
-        </CampoSelect>
+          optionValue="codigo"
+          optionLabel="nome"
+        />
         <CampoEntrada
           value={objeto.valor}
           id="idValor"
@@ -115,12 +113,15 @@ function Form() {
           label="Ativo"
           onchange={handleChange}
           msgvalido="OK certo"
+          dados={[
+            { nome: "Sim", codigo: true },
+            { nome: "Nao", codigo: false },
+          ]}
           msginvalido="Informe se está ativo"
           requerido={true}
-        >
-          <option value={true}>Sim</option>
-          <option value={false}>Não</option>
-        </CampoSelect>
+          optionValue="codigo"
+          optionLabel="nome"
+        />
         <CampoEntrada
           value={objeto.data_cadastro}
           id="txtDataCadastro"

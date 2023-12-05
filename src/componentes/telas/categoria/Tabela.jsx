@@ -1,81 +1,58 @@
-import { useContext, useMemo } from "react";
-import {
-  Box,
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import React, { useContext } from "react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 import CategoriaContext from "./CategoriaContext";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Button } from "primereact/button";
+import { formatoMoeda } from "../../comuns/Uteis";
 
 function Tabela() {
   const { alerta, listaObjetos, remover, editarObjeto, novoObjeto } =
     useContext(CategoriaContext);
 
+  const botoes = (objeto) => {
+    return (
+      <>
+        <Button
+          key="editar"
+          onClick={() => editarObjeto(objeto.codigo)}
+          aria-label="Editar"
+          size="small"
+          className="p-2 mr-1"
+        >
+          <i className="pi pi-pencil" />
+        </Button>
+        <Button
+          key="remover"
+          onClick={() => remover(objeto.codigo)}
+          aria-label="Apagar"
+          severity="danger"
+          size="small"
+          className="p-2"
+        >
+          <i className="pi pi-trash" />
+        </Button>
+      </>
+    );
+  };
+
   return (
-    <Box sx={{ padding: "5%" }}>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">
-                <Button
-                  variant="contained"
-                  onClick={() => novoObjeto()}
-                  sx={{ margin: "5px" }}
-                  aria-label="Nova avaliação"
-                >
-                  Nova Avaliação
-                </Button>
-              </TableCell>
-              <TableCell align="left">Codigo</TableCell>
-              <TableCell align="left">Nome</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {listaObjetos.map((row) => (
-              <TableRow
-                key={row.codigo}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row" width="30%">
-                  <Button
-                    item
-                    key="editar"
-                    onClick={() => editarObjeto(row.codigo)}
-                    title="Editar"
-                    aria-label="Editar"
-                  >
-                    <EditIcon />
-                  </Button>
-                  <Button
-                    item
-                    key="remover"
-                    onClick={() => remover(row.codigo)}
-                    title="Apagar"
-                    aria-label="Deletar"
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.codigo}
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.nome}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
+    <div>
+      <Button
+        className="w-full justify-content-center "
+        onClick={() => novoObjeto()}
+      >
+        Nova Categoria
+      </Button>
+      <DataTable
+        value={listaObjetos}
+        stripedRows
+        tableStyle={{ minWidth: "50rem" }}
+      >
+        <Column field="codigo" header="Codigo"></Column>
+        <Column field="nome" header="Nome"></Column>
+        <Column header="Ações" body={botoes}></Column>
+      </DataTable>
+    </div>
   );
 }
 

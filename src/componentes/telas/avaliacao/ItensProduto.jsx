@@ -1,81 +1,42 @@
 import { useContext } from "react";
 import { formatoMoeda } from "../../comuns/Uteis";
 import AvaliacaoContext from "./AvaliacaoContext";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Container,
-  Divider,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Fieldset } from "primereact/fieldset";
+import { Accordion, AccordionTab } from "primereact/accordion";
 
 function ItensProduto() {
   const { produto } = useContext(AvaliacaoContext);
 
   return (
-    <div style={{ padding: "1%" }}>
-      <Paper
-        sx={{
-          p: 2,
-          margin: "auto",
-          maxWidth: 1000,
-          flexGrow: 1,
-          backgroundColor: (theme) =>
-            theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-        }}
-      >
-        <Grid container spacing={2} sx={{ padding: "5%" }}>
-          <Grid item xs={12} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-                <Typography
-                  gutterBottom
-                  variant="h4"
-                  component="div"
-                  sx={{ padding: "10px" }}
-                >
-                  {produto.nome}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="h5" component="div">
-                  {formatoMoeda(produto.valor)}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Estoque: {produto.quantidade_estoque}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lançamento: {produto.data_cadastro}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-      <Accordion
-        sx={{
-          padding: "1%",
-          marginLeft: "10%",
-          marginRight: "10%",
-          marginTop: "2%",
-        }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="descricao-content"
-          id="descricao-header"
+    <>
+      <div style={{ padding: "1%" }}>
+        <Fieldset legend={<h3>{produto.nome}</h3>}>
+          <div class="flex flex-column md:flex-column">
+            <div class="flex align-items-center justify-content-between w-full  font-bold ">
+              <div>Estoque: {produto.quantidade_estoque}</div>
+              <div>Lançamento: {produto.data_cadastro}</div>
+            </div>
+            <div class="flex align-items-center justify-content-center  font-bold border-round m-2">
+              {produto.ativo ? "Disponivel" : "Indisponivel"}
+            </div>
+            <div class="flex align-items-center justify-content-center p-3 ml-3 mr-3 text-white bg-green-500 font-bold border-round m-2">
+              {formatoMoeda(produto.valor)}
+            </div>
+          </div>
+        </Fieldset>
+      </div>
+      <Accordion className="p-3">
+        <AccordionTab
+          header={
+            <div className="flex align-items-center">
+              <span className="vertical-align-middle"> Descrição</span>
+            </div>
+          }
         >
-          <Typography>Descrição</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>{produto.descricao}</Typography>
-        </AccordionDetails>
+          {produto.descricao}
+        </AccordionTab>
       </Accordion>
-    </div>
+    </>
   );
 }
 

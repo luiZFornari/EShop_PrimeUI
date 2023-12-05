@@ -1,28 +1,41 @@
 import { Menubar } from "primereact/menubar";
 import { NavLink, Outlet } from "react-router-dom";
 import Autenticacao from "./seguranca/Autenticacao";
+import { useState, useEffect } from "react";
 
 function MenuPrivado() {
-  const autenticacao = Autenticacao.pegaAutenticacao();
+  const [autenticado, setAutenticado] = useState(
+    Autenticacao.pegaAutenticacao()
+  );
+
+  useEffect(() => {
+    // Atualiza o estado local quando a autenticação mudar em algum lugar da sua aplicação
+    setAutenticado(Autenticacao.pegaAutenticacao());
+  }, []);
+
+  const handleLogout = () => {
+    Autenticacao.logout();
+    setAutenticado(false); // Define autenticado como false após o logout
+  };
 
   const items = [
     {
       label: "Home",
-      url: "/",
+      url: "/privado/",
     },
     {
-      label: autenticacao ? "Usuário: " + autenticacao.nome_usuario : "Usuário",
+      label: autenticado ? "Usuário: " + autenticado.nome_usuario : "Usuário",
       items: [
         {
-          label: autenticacao ? "Logout" : "Login",
-          command: autenticacao && (() => Autenticacao.logout()),
-          url: autenticacao ? "/" : "/login",
+          label: autenticado ? "Logout" : "Login",
+          command: autenticado ? handleLogout : undefined,
+          url: autenticado ? "/" : "/login",
         },
       ],
     },
     {
       label: "Sobre",
-      url: "/sobre",
+      url: "/privado/sobre",
     },
     {
       label: "Manutenções",
@@ -40,8 +53,8 @@ function MenuPrivado() {
   ];
 
   const start = (
-    <NavLink exact to="/">
-      <h2 style={{ color: "black" }}>EShop</h2>
+    <NavLink exact to="/privado">
+      <h2 style={{ color: "black", display: "inline-block" }}>EShop</h2>
     </NavLink>
   );
 

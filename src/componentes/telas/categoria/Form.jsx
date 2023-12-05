@@ -24,8 +24,8 @@ function Form() {
         acaoCadastrar={acaoCadastrar}
         idform="formulario"
         maxWidth="sm"
+        alerta={alerta}
       >
-        <Alerta alerta={alerta} />
         <CampoEntrada
           id="txtCodigo"
           label="Codigo"

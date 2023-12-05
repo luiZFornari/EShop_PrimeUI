@@ -1,5 +1,4 @@
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+import { InputText } from "primereact/inputtext";
 
 function CampoEntrada({
   id,
@@ -15,27 +14,29 @@ function CampoEntrada({
   msginvalido,
   placeholder,
 }) {
+  const campoVazio = value;
   return (
-    <>
-      <TextField
-        InputProps={{
-          readOnly: readonly,
-        }}
-        fullWidth={true}
+    <div className="field ">
+      <label htmlFor={id}>{label}</label>
+      <InputText
+        className={`surface-overlay p-2 border-round w-full ${
+          campoVazio ? " " : "p-invalid"
+        }`}
+        readOnly={readonly}
         type={tipo}
         id={id}
-        label={label}
-        placeholder={placeholder}
         name={name}
         value={value}
-        defaultValue={value}
         onChange={onchange}
         required={requerido}
         maxLength={maxlength}
-        helperText={value === "" && requerido === true ? msginvalido : " "}
-        error={readonly || requerido === false ? false : value === ""}
       />
-    </>
+      {campoVazio ? (
+        <small id="username-help ">{msgvalido}</small>
+      ) : (
+        <small id="username-help ">{msginvalido}</small>
+      )}
+    </div>
   );
 }
 

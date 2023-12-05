@@ -1,36 +1,33 @@
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Box } from '@mui/material';
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import Alerta from "./Alerta";
+
 function Dialogo(props) {
-    return (
-        <Dialog open={props.open} onClose={() => props.setOpen(false)}
-            fullWidth={true}
-            maxWidth={props.maxWidth}
-            // maxWidth pode ser 'xs' 'sm' 'md' 'lg' 'xl'
-            id={props.id}>
-            <DialogTitle>{props.titulo}</DialogTitle>
-            <form id={props.idform} onSubmit={props.acaoCadastrar}>
-                <DialogContent>
-                    <Box
-                        sx={{                                                        
-                            '& .MuiTextField-root': { m: 1, width: '97%' },
-                            maxWidth: '100%',
-                        }}
-                        autoComplete="off"
-                    >
-                        {props.children}
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => props.setOpen(false)}>Fechar</Button>
-                    <Button type="submit">Salvar</Button>
-                </DialogActions>
-            </form>
-        </Dialog>
-    )
+  const Header = () => (
+    <div>
+      <h5>{props.titulo}</h5>
+      <div>
+        <Alerta alerta={props.alerta} />
+      </div>
+    </div>
+  );
+
+  return (
+    <Dialog
+      header={Header(props)}
+      visible={props.open}
+      style={{ width: "80%" }}
+      onHide={() => props.setOpen(false)}
+    >
+      <form id={props.idform} onSubmit={props.acaoCadastrar}>
+        <div className="flex flex-column p-1">{props.children}</div>
+
+        <Button type="submit" className="w-full justify-content-center">
+          Salvar
+        </Button>
+      </form>
+    </Dialog>
+  );
 }
 
 export default Dialogo;
