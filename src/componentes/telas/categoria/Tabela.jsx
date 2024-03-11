@@ -4,6 +4,7 @@ import { Column } from "primereact/column";
 import CategoriaContext from "./CategoriaContext";
 import { Button } from "primereact/button";
 import { formatoMoeda } from "../../comuns/Uteis";
+import Alerta from "../../comuns/Alerta";
 
 function Tabela() {
   const { alerta, listaObjetos, remover, editarObjeto, novoObjeto } =
@@ -37,6 +38,7 @@ function Tabela() {
 
   return (
     <div>
+      <Alerta alerta={alerta} />
       <Button
         className="w-full justify-content-center "
         onClick={() => novoObjeto()}

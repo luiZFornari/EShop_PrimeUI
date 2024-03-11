@@ -4,8 +4,8 @@ import jwt_decode from "jwt-decode";
 import Autenticacao from "../../seguranca/Autenticacao";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-
 import "primeicons/primeicons.css";
+import Alerta from "../../comuns/Alerta";
 
 function Login() {
   const { pegaAutenticacao, gravaAutenticacao } = Autenticacao;
@@ -31,11 +31,17 @@ function Login() {
         .then((response) => response.json())
         .then((json) => {
           if (json.auth === true) {
-            setAlerta({ status: "success", message: JSON.stringify(json) });
+            setAlerta({
+              status: "success",
+              message: JSON.stringify(json.message),
+            });
             setAutenticado(true);
             gravaAutenticacao(json);
           } else {
-            setAlerta({ status: "error", message: JSON.stringify(json) });
+            setAlerta({
+              status: "error",
+              message: JSON.stringify(json.message),
+            });
           }
         });
     } catch (err) {
@@ -68,10 +74,11 @@ function Login() {
 
   return (
     <div
-      class="flex justify-content-center align-items-center"
+      class="flex flex-column justify-content-center align-items-center"
       style={{ marginTop: "5%" }}
     >
-      <div>
+      <Alerta alerta={alerta} />
+      <div style={{ margin: "10px" }}>
         <div className="flex justify-content-center">
           <i
             className="pi pi-lock"
@@ -82,7 +89,10 @@ function Login() {
         <h2 class="flex justify-content-center">Login de usuario</h2>
         <form onSubmit={acaoLogin} noValidate>
           <div>
-            <span className="p-float-label" style={{ margin: "10px" }}>
+            <span
+              className="p-float-label"
+              style={{ margin: "10px", marginTop: "20px" }}
+            >
               <InputText
                 id="username"
                 value={email}
@@ -92,7 +102,7 @@ function Login() {
             </span>
             <span
               className="p-float-label"
-              style={{ margin: "10px", marginTop: "20px" }}
+              style={{ margin: "10px", marginTop: "25px" }}
             >
               <InputText
                 id="senha"
